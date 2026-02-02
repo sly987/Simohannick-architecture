@@ -39,9 +39,9 @@ La base de données choisie est **PostgreSQL**.
 
 - **Maîtrise de l’équipe** : Java est le langage le mieux connu par l’équipe, réduisant le risque projet.
 - **Productivité et robustesse** : Spring Boot facilite la création d’API web (REST), la structuration du code, l’intégration avec une base de données et les bonnes pratiques d’architecture.
-- **Séparation des responsabilités** : isoler la notification permet d’éviter que l’envoi d’emails ralentisse ou fragilise le cœur métier des réservations.
+- **Séparation des responsabilités** : isoler la notification permet d’éviter que l’envoi d’emails ralentisse ou impacte le cœur métier des réservations.
 - **Asynchronisme** : la file de messages permet de découpler le traitement (réservation vs notification) et d’absorber les pics sans bloquer l’utilisateur.
-- **Habitude et compatibilité** : PostgreSQL est déjà maîtrisé par le groupe et adapté aux besoins transactionnels (réservations, intégrité, historique).
+- **Habitude et compatibilité** : PostgreSQL est déjà maîtrisé par le groupe et adapté aux besoins transactionnels (réservations, intégrité, historique). De plus, le schema de la base n'intègre pas de structure de donnees dynamiques.
 
 ## Alternatives considérées
 
@@ -49,15 +49,15 @@ La base de données choisie est **PostgreSQL**.
   - plus simple à déployer, mais moins isolé (risque que les notifications impactent le cœur métier)
 - **Communication synchrone (HTTP) entre services** :
   - plus simple à comprendre, mais plus fragile (dépendance directe, risque de timeouts et d’indisponibilité)
-- **Autre stack backend / autre SGBD** :
-  - non retenu car moins maîtrisé et augmenterait le risque de delivery
+- **Architecture micro service + Communication asynchrone** :
+  - Decoupage plus fin du coeur du metier (Service Parking - Service de reservation - service de gestion des employees...etc). Pas de dépendances, mais contrainte de temps et une seule équipe de développement 
 
 ## Conséquences
 
 - Positives :
-  - séparation claire des responsabilités et meilleure évolutivité
+  - séparation fonctionnelle des responsabilités 
   - notifications non bloquantes grâce à la file de messages
   - cohérence et fiabilité via PostgreSQL pour le domaine réservation
 - Négatives :
-  - complexité supplémentaire liée au multi-service (déploiement, observabilité, configuration)
-  - nécessité de gérer les cas de messages en erreur (retries, dead-letter queue, idempotence)
+  - complexité supplémentaire liée a la communication asynchrone (retries, dead-letter queue, idempotence)
+  - manque de fléxibilté lie aux futurs changements de besoin (gestion de différents types de véhicules comme des vélos, motos…)
