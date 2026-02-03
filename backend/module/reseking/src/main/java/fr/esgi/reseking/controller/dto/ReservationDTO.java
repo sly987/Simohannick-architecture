@@ -12,5 +12,5 @@ import lombok.Setter;
 public class ReservationDTO {
     private String startDate;
     private int duration;
-    private String vehiculeType;
+    private String vehicleType;
 }

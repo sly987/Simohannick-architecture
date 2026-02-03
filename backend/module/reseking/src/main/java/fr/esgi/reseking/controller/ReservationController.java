@@ -17,7 +17,7 @@ public class ReservationController {
         this.reservationRepository = reservationRepository;
     }
 
-    @PostMapping("/reservation")
+    @PostMapping("/reservations")
     public void add(@RequestBody ReservationDTO reservation) {
         final ReservationEntity reservationEntity = ReservationMapper.map(reservation);
         reservationRepository.save(reservationEntity);

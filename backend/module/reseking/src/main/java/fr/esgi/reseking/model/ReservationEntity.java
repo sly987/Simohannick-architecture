@@ -19,6 +19,6 @@ public class ReservationEntity {
     private int id;
     private String startDate;
     private int duration;
-    private String vehiculeType;
+    private String vehicleType;
 
 }

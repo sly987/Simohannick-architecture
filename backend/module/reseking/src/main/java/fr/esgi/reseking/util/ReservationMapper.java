@@ -9,7 +9,7 @@ public class ReservationMapper {
         ReservationEntity reservationEntity = new ReservationEntity();
         reservationEntity.setStartDate(reservation.getStartDate());
         reservationEntity.setDuration(reservation.getDuration());
-        reservationEntity.setVehiculeType(reservation.getVehiculeType());
+        reservationEntity.setVehicleType(reservation.getVehicleType());
         return reservationEntity;
     }
 
@@ -17,7 +17,7 @@ public class ReservationMapper {
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setStartDate(reservationEntity.getStartDate());
         reservationDTO.setDuration(reservationEntity.getDuration());
-        reservationDTO.setVehiculeType(reservationEntity.getVehiculeType());
+        reservationDTO.setVehicleType(reservationEntity.getVehicleType());
         return reservationDTO;
     }
 }

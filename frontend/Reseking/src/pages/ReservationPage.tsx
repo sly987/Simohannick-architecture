@@ -8,19 +8,6 @@ export default function ReservationPage() {
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [duration, setDuration] = useState<number>(1);
     const [vehicleType, setVehicleType] = useState<string>("essence");
-    const handleSubmit = () => {
-        if (!startDate || duration <= 0) {
-            alert("Veuillez remplir tous les champs");
-            return;
-        }
-
-        console.log({
-            startDate,
-            duration,
-        });
-
-
-    };
     const handleReservation = async () => {
         if (!startDate || duration <= 0) {
             alert("Veuillez remplir tous les champs");
