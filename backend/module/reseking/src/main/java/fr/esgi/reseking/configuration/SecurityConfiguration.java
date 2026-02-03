@@ -33,7 +33,7 @@ public class SecurityConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/*")
-                        .allowedOrigins("http://localhost:5173") // Remplacez par l'origine de votre frontend
+                        .allowedOrigins("http://localhost:3000") // Remplacez par l'origine de votre frontend
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
