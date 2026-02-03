@@ -14,7 +14,9 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ value: text }),
+        body: JSON.stringify({
+          id: 1,
+          value: text }),
       });
 
       if (!response.ok) {
