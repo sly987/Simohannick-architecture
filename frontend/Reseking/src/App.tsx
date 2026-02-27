@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import ReservationPage from "./pages/ReservationPage";
+import ReservationPage from "./features/reservation/reservationPage";
 import "./App.css";
 
 function App() {
