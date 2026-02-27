@@ -93,8 +93,8 @@ button:hover {
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #ffffff;
-  color: #ffffff;
+  background: #f1f5f9;
+  color: #1e293b;
 }
 
 .app {
