@@ -1,10 +1,9 @@
 package fr.esgi.reseking.repository;
 
-import fr.esgi.reseking.model.Reservation;
+import fr.esgi.reseking.model.ParkingSpot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
-
+public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Integer> {
 }

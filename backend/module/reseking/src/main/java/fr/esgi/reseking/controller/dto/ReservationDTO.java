@@ -12,5 +12,7 @@ import lombok.Setter;
 public class ReservationDTO {
     private String startDate;
     private int duration;
-    private String vehicleType;
+    private String registrationNumber;
+    private Integer employeeId;
+    private Integer spotId;
 }

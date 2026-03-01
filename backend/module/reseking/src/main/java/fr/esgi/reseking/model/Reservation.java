@@ -13,12 +13,21 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationEntity {
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "reservation_id")
+    private Integer id;
     private String startDate;
     private int duration;
-    private String vehicleType;
+    private String registrationNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "spot_id")
+    private ParkingSpot spot;
 
 }
