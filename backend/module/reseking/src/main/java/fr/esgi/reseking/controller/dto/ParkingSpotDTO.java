@@ -19,5 +19,4 @@ public class ParkingSpotDTO {
     private String column;
     private SpotType type;
     private List<String> reservations;
-    private String activeReservation;
 }

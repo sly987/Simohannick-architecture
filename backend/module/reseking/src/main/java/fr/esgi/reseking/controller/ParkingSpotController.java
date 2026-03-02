@@ -1,11 +1,11 @@
 package fr.esgi.reseking.controller;
 
 import fr.esgi.reseking.controller.dto.ParkingSpotDTO;
-import fr.esgi.reseking.repository.ParkingSpotRepository;
-import fr.esgi.reseking.util.ParkingSpotMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import fr.esgi.reseking.controller.response.CheckInApiResponse;
+import fr.esgi.reseking.service.ParkingSpotService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,15 +13,25 @@ import java.util.List;
 @RequestMapping("/spots")
 public class ParkingSpotController {
 
-    private final ParkingSpotRepository parkingSpotRepository;
+    private final ParkingSpotService parkingSpotService;
 
-
-    public ParkingSpotController (ParkingSpotRepository parkingSpotRepository) {
-        this.parkingSpotRepository = parkingSpotRepository;
+    public ParkingSpotController(ParkingSpotService parkingSpotService) {
+        this.parkingSpotService = parkingSpotService;
     }
 
     @GetMapping
     public List<ParkingSpotDTO> getParkingSpots() {
-        return parkingSpotRepository.findAll().stream().map(ParkingSpotMapper::toDTO).toList();
+        return parkingSpotService.getAllParkingSpots();
+    }
+
+    @PostMapping("/check-in/{row}/{column}")
+    public ResponseEntity<CheckInApiResponse> checkIn(
+            @PathVariable String row,
+            @PathVariable String column,
+            Authentication authentication
+    ) {
+        String employeeEmail = authentication.getName();
+        parkingSpotService.checkIn(row, column, employeeEmail);
+        return ResponseEntity.ok(new CheckInApiResponse("Check-in successful"));
     }
 }

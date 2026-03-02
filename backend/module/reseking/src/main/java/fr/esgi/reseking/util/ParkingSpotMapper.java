@@ -18,19 +18,12 @@ public class ParkingSpotMapper {
                     .toList();
         }
 
-        String activeReservationId = null;
-
-        if (spot.getActiveReservation() != null) {
-            activeReservationId = String.valueOf(spot.getActiveReservation().getId());
-        }
-
         return new ParkingSpotDTO(
                 spot.getId(),
                 spot.getRow(),
                 spot.getColumn(),
                 spot.getType(),
-                reservationIds,
-                activeReservationId
+                reservationIds
         );
     }
 }

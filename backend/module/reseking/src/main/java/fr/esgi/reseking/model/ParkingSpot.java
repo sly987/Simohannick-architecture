@@ -34,8 +34,4 @@ public class ParkingSpot {
     @OneToMany(mappedBy = "spot")
     private List<Reservation> reservations;
 
-    @OneToOne
-    @JoinColumn(name = "active_reservation_id")
-    private Reservation activeReservation;
-
 }

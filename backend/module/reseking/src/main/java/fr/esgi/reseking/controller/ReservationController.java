@@ -2,6 +2,7 @@ package fr.esgi.reseking.controller;
 
 import fr.esgi.reseking.controller.response.CreationApiResponse;
 import fr.esgi.reseking.controller.dto.ReservationDTO;
+import fr.esgi.reseking.controller.validator.ReservationValidator;
 import fr.esgi.reseking.service.ReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity<CreationApiResponse> add(@RequestBody ReservationDTO reservationDTO) {
+        ReservationValidator.validateReservationInput(reservationDTO);
         Integer reservationId = reservationService.addReservation(reservationDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
