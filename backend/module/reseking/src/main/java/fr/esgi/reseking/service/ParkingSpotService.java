@@ -4,10 +4,10 @@ import fr.esgi.reseking.controller.dto.ParkingSpotDTO;
 import fr.esgi.reseking.controller.validator.CheckInValidator;
 import fr.esgi.reseking.exception.DataNotFoundException;
 import fr.esgi.reseking.model.ParkingSpot;
-import fr.esgi.reseking.model.Reservation;
+import fr.esgi.reseking.model.ReservationDay;
 import fr.esgi.reseking.model.enums.Status;
 import fr.esgi.reseking.repository.ParkingSpotRepository;
-import fr.esgi.reseking.repository.ReservationRepository;
+import fr.esgi.reseking.repository.ReservationDayRepository;
 import fr.esgi.reseking.util.ParkingSpotMapper;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +19,11 @@ import java.util.List;
 public class ParkingSpotService {
 
     private final ParkingSpotRepository parkingSpotRepository;
-    private final ReservationRepository reservationRepository;
+    private final ReservationDayRepository reservationDayRepository;
 
-    public ParkingSpotService(ParkingSpotRepository parkingSpotRepository, ReservationRepository reservationRepository) {
+    public ParkingSpotService(ParkingSpotRepository parkingSpotRepository, ReservationDayRepository reservationDayRepository) {
         this.parkingSpotRepository = parkingSpotRepository;
-        this.reservationRepository = reservationRepository;
+        this.reservationDayRepository = reservationDayRepository;
     }
 
     public List<ParkingSpotDTO> getAllParkingSpots() {
@@ -35,17 +35,20 @@ public class ParkingSpotService {
 
     public void checkIn(String row, String column, String employeeEmail) {
         ParkingSpot spot = parkingSpotRepository.findByRowAndColumn(row, column)
-                .orElseThrow(() -> new DataNotFoundException("Parking spot not found at row " + row + " column " + column));
+                .orElseThrow(() -> new DataNotFoundException(
+                        "Parking spot not found at row " + row + " column " + column));
 
         LocalDate today = LocalDate.now();
-        Reservation activeReservation = reservationRepository.findActiveForSpotOnDate(spot.getId(), today, List.of(Status.BOOKED))
-                .orElseThrow(() -> new DataNotFoundException("No active reservation found for this parking spot"));
 
-        CheckInValidator.validateReservationOwnership(activeReservation, employeeEmail);
-        CheckInValidator.validateNotAlreadyCheckedIn(activeReservation, today);
+        ReservationDay day = reservationDayRepository.findFirstBySpot_IdAndDateAndStatusIn(spot.getId(), today, List.of(Status.BOOKED, Status.CHECKED_IN))
+                .orElseThrow(() -> new DataNotFoundException("No active reservation for today on this parking spot"));
 
-        activeReservation.addCheckIn(today, LocalDateTime.now());
+        CheckInValidator.validateReservationOwnership(day.getReservation(), employeeEmail);
+        CheckInValidator.validateNotAlreadyCheckedIn(day);
 
-        reservationRepository.save(activeReservation);
+        day.setCheckedInAt(LocalDateTime.now());
+        day.setStatus(Status.CHECKED_IN);
+
+        reservationDayRepository.save(day);
     }
 }

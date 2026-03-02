@@ -2,7 +2,6 @@ package fr.esgi.reseking.util;
 
 import fr.esgi.reseking.model.enums.Role;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class ReservationUtil {

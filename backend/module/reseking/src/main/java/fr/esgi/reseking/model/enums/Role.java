@@ -1,5 +1,8 @@
 package fr.esgi.reseking.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
     ADMIN(30),
     EMPLOYEE(5),
@@ -11,7 +14,4 @@ public enum Role {
         this.maxReservationDays = maxReservationDays;
     }
 
-    public long getMaxReservationDays() {
-        return maxReservationDays;
-    }
 }

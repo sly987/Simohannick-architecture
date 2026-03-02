@@ -9,37 +9,34 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
-@Table(name = "reservations")
+@Table(name = "reservation_days")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reservation {
+public class ReservationDay {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reservation_id")
     private Integer id;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+    private LocalDateTime checkedInAt;
 
-    @Column(name = "end_date")
-    private LocalDate endDate;
+    @ManyToOne
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
 
-    private String registrationNumber;
+    @ManyToOne
+    @JoinColumn(name = "spot_id", nullable = false)
+    private ParkingSpot spot;
+
+    @Column(nullable = false)
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    @ManyToOne
-    @JoinColumn(name = "spot_id")
-    private ParkingSpot spot;
 }
+
