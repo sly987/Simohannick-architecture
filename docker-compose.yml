@@ -26,6 +26,13 @@ services:
       timeout: 5s
       retries: 20
 
+  mailhog:
+    image: mailhog/mailhog
+    container_name: reseking-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
   backend:
     build: ./backend/module/Reseking
     container_name: reseking-back

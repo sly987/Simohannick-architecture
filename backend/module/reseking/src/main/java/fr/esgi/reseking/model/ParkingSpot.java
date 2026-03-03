@@ -34,4 +34,8 @@ public class ParkingSpot {
     @OneToMany(mappedBy = "spot")
     private List<Reservation> reservations;
 
+    public String getLabel() {
+        return row + String.format("%02d", Integer.parseInt(column));
+    }
+
 }
