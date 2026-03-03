@@ -54,11 +54,12 @@ public class ReservationService {
         );
 
         ReservationValidator.validateEmployeeHasNoActiveReservation(hasActiveReservation, employee.getId());
-        ReservationValidator.validateReservationDuration(dto, employee);
 
         List<LocalDate> requestedDays = dto.getStartDate().datesUntil(dto.getEndDate().plusDays(1))
                 .filter(date -> date.getDayOfWeek().getValue() < 6)
                 .toList();
+        ReservationValidator.validateReservationDuration(requestedDays.size(), employee);
+
 
         List<ReservationDay> existingDays =
                 reservationDayRepository.findBySpot_IdAndDateInAndStatusIn(

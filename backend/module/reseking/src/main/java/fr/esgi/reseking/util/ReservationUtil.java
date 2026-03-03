@@ -9,11 +9,8 @@ public class ReservationUtil {
     private ReservationUtil() {
     }
 
-    public static boolean isValidReservationDuration(LocalDate startDate, LocalDate endDate, Role role) {
-        long workingDaysCount = startDate.datesUntil(endDate.plusDays(1))
-                .filter(date -> date.getDayOfWeek().getValue() < 6)
-                .count();
-        return workingDaysCount <= role.getMaxReservationDays();
+    public static boolean isValidReservationDuration(int requestedDuration, Role role) {
+        return requestedDuration <= role.getMaxReservationDays() && requestedDuration != 0;
     }
 }
 
