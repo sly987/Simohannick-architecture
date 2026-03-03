@@ -19,4 +19,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     @Query("select r from Reservation r where r.spot.id = :spotId and r.startDate <= :today and r.endDate >= :today and r.status in :statuses")
     Optional<Reservation> findActiveForSpotOnDate(@Param("spotId") Integer spotId, @Param("today") LocalDate today, @Param("statuses") List<Status> statuses);
+
+    @Query("select count(distinct r.employee.id) from Reservation r where r.startDate <= :to and r.endDate >= :from")
+    long countDistinctEmployeesByDateRange(@Param("from") LocalDate from, @Param("to") LocalDate to);
 }
