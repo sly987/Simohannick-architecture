@@ -2,6 +2,7 @@ package fr.esgi.reseking.service;
 
 import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.controller.validator.EmployeeValidator;
+import fr.esgi.reseking.exception.DataNotFoundException;
 import fr.esgi.reseking.model.Employee;
 import fr.esgi.reseking.repository.EmployeeRepository;
 import fr.esgi.reseking.util.EmployeeMapper;
@@ -36,5 +37,11 @@ public class EmployeeService {
                 .stream()
                 .map(EmployeeMapper::toDto)
                 .toList();
+    }
+
+    public EmployeeDTO getCurrentUser(String email) {
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new DataNotFoundException("Employee not found with email: " + email));
+        return EmployeeMapper.toDto(employee);
     }
 }
