@@ -1,72 +1,61 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { Routes, Route, NavLink } from "react-router-dom";
+import { LoginPage } from "./features/auth/LoginPage";
+import { ProfilePage } from "./features/auth/ProfilePage";
+import { ProtectedRoute } from "./features/auth/components/ProtectedRoute";
+import { useAuth } from "./features/auth/useAuth";
+import ReservationPage from "./features/reservation/reservationPage";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [text, setText] = useState("");
-
-  const callApi = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api/test", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: 1,
-          value: text }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erreur lors de l'appel API");
-      }
-
-      console.log("API appelée avec succès");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { user, isAuthenticated, logout } = useAuth();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
+    <div className="app">
+      <header className="header">
+        <h1>Reseking</h1>
 
-      <h1>Vite + React</h1>
+        <nav>
+          <NavLink to="/" end>
+            Accueil
+          </NavLink>
+          {isAuthenticated && (
+            <NavLink to="/reservation">Réserver</NavLink>
+          )}
+        </nav>
 
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <div className="auth-section">
+          {isAuthenticated ? (
+            <>
+              <NavLink to="/profile">{user?.firstName} {user?.lastName}</NavLink>
+              <button onClick={logout}>Déconnexion</button>
+            </>
+          ) : (
+            <NavLink to="/login">Connexion</NavLink>
+          )}
+        </div>
+      </header>
 
-        <br /><br />
+      <main className="main">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="home">
+                <h2>Bienvenue sur Reseking</h2>
+                <p>Réservez votre place de parking en quelques secondes.</p>
+              </div>
+            }
+          />
 
-        <input
-          type="text"
-          value={text}
-          placeholder="Envoyer un texte à l'API"
-          onChange={(e) => setText(e.target.value)}
-        />
+          <Route path="/login" element={<LoginPage />} />
 
-        <br /><br />
-
-        <button onClick={callApi}>
-          Appeler l’API
-        </button>
-      </div>
-
-      <p className="read-the-docs">
-        Edit <code>src/App.tsx</code> and save to test HMR
-      </p>
-    </>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/reservation" element={<ReservationPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+        </Routes>
+      </main>
+    </div>
   );
 }
 
