@@ -13,7 +13,7 @@ import fr.esgi.reseking.repository.EmployeeRepository;
 import fr.esgi.reseking.repository.ParkingSpotRepository;
 import fr.esgi.reseking.repository.ReservationDayRepository;
 import fr.esgi.reseking.repository.ReservationRepository;
-import fr.esgi.reseking.util.ReservationMapper;
+import fr.esgi.reseking.mapper.ReservationMapper;
 import fr.esgi.reseking.controller.validator.ReservationValidator;
 import org.springframework.stereotype.Service;
 

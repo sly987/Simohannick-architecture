@@ -5,7 +5,7 @@ import fr.esgi.reseking.controller.validator.EmployeeValidator;
 import fr.esgi.reseking.exception.DataNotFoundException;
 import fr.esgi.reseking.model.Employee;
 import fr.esgi.reseking.repository.EmployeeRepository;
-import fr.esgi.reseking.util.EmployeeMapper;
+import fr.esgi.reseking.mapper.EmployeeMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package fr.esgi.reseking.util;
+package fr.esgi.reseking.mapper;
 
 import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.model.Employee;
@@ -26,6 +26,7 @@ public class EmployeeMapper {
 
     public static EmployeeDTO toDto(Employee employee) {
         EmployeeDTO dto = new EmployeeDTO();
+        dto.setId(employee.getId());
         dto.setFirstName(employee.getFirstName());
         dto.setLastName(employee.getLastName());
         dto.setEmail(employee.getEmail());
