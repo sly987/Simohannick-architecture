@@ -114,5 +114,16 @@ public class ReservationService {
         reservationRepository.findById(reservationId)
                 .ifPresent(reservationRepository::delete);
     }
+
+    public void cancelReservation(Integer reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new DataNotFoundException("Reservation not found with id: " + reservationId));
+
+        reservation.setStatus(Status.CANCELLED);
+        reservationRepository.save(reservation);
+
+        List<ReservationDay> reservationDays = reservationDayRepository.findByReservation_Id(reservationId);
+        reservationDayRepository.deleteAll(reservationDays);
+    }
 }
 

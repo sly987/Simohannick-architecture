@@ -29,4 +29,6 @@ public interface ReservationDayRepository
 
     @Query("select count(rd) from ReservationDay rd where rd.date between :from and :to and rd.status in :statuses")
     long countByDateBetweenAndStatusIn(@Param("from") LocalDate from, @Param("to") LocalDate to, @Param("statuses") List<Status> statuses);
+
+    List<ReservationDay> findByReservation_Id(Integer reservationId);
 }

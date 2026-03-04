@@ -71,4 +71,18 @@ public class SecretaryController {
         reservationService.deleteReservation(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/reservations/cancel")
+    @Operation(summary = "Cancel reservation", description = "Cancel a reservation by ID and remove associated reservation days")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Reservation cancelled successfully"),
+            @ApiResponse(responseCode = "404", description = "Reservation not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - Admin access required")
+    })
+    public ResponseEntity<Void> cancelReservation(
+            @Parameter(description = "Reservation ID to cancel", required = true)
+            @RequestParam Integer id) {
+        reservationService.cancelReservation(id);
+        return ResponseEntity.noContent().build();
+    }
 }
