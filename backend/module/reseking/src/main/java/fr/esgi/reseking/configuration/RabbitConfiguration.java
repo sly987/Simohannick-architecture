@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
-    public static final String QUEUE = "test.queue";
-    public static final String EXCHANGE = "test.exchange";
-    public static final String ROUTING_KEY = "test.key";
+    public static final String QUEUE = "notification.queue";
+    public static final String EXCHANGE = "notification.exchange";
+    public static final String ROUTING_KEY = "notification.key";
 
     @Bean
     public Queue queue() {
