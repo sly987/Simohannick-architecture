@@ -2,8 +2,8 @@
 
 echo "=== Starting Reseking Application ==="
 
-# Start all services
-docker-compose up -d
+# Start all services (with rebuild)
+docker-compose up -d --build
 
 echo ""
 echo "Services started:"

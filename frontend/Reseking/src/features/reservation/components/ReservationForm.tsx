@@ -6,6 +6,7 @@ import type { Reservation } from "../reservation.types";
 import "../Reservation.css";
 import type { ParkingSpot } from "../../parking/parking.types";
 import { useAuth } from "../../auth/useAuth";
+import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {
   selectedSpot: ParkingSpot;
@@ -41,6 +42,7 @@ export function ReservationForm({ selectedSpot, onSubmit }: Props) {
       endDate: endDate.toISOString().split("T")[0],
       spotId: selectedSpot.id,
       registrationNumber,
+      employeeId: user!.id,
     });
   };
 
@@ -65,6 +67,7 @@ export function ReservationForm({ selectedSpot, onSubmit }: Props) {
           dateFormat="dd-MM-yyyy"
           placeholderText="jj-mm-aaaa"
           locale={fr}
+          filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6}
         />
       </div>
 
@@ -78,6 +81,7 @@ export function ReservationForm({ selectedSpot, onSubmit }: Props) {
           locale={fr}
           minDate={startDate || undefined}
           maxDate={maxEndDate}
+          filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6}
         />
       </div>
 
