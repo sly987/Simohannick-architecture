@@ -40,29 +40,7 @@
 .read-the-docs {
   color: #888;
 }
-.reservation-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #a53f3f, #ff0000);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-}
 
-.reservation-card {
-  background: #ffffff;
-  padding: 32px;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.reservation-card h1 {
-  margin-bottom: 8px;
-  font-size: 24px;
-  color: black;
-}
 
 .subtitle {
   color: #64748b;
@@ -115,8 +93,8 @@ button:hover {
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #ffffff;
-  color: #ffffff;
+  background: #f1f5f9;
+  color: #1e293b;
 }
 
 .app {

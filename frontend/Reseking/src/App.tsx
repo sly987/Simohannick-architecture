@@ -1,42 +1,62 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import ReservationPage from "./pages/ReservationPage";
+import { LoginPage } from "./features/auth/LoginPage";
+import { ProfilePage } from "./features/auth/ProfilePage";
+import { ProtectedRoute } from "./features/auth/components/ProtectedRoute";
+import { useAuth } from "./features/auth/useAuth";
+import ReservationPage from "./features/reservation/reservationPage";
 import "./App.css";
 
 function App() {
-    return (
-        <div className="app">
-            <header className="header">
-                <h1>🚘 Reseking</h1>
+  const { user, isAuthenticated, logout } = useAuth();
 
-                <nav>
-                    <NavLink to="/" end>
-                        Accueil
-                    </NavLink>
-                    <NavLink to="/reservation">
-                        Réserver
-                    </NavLink>
-                </nav>
-            </header>
+  return (
+    <div className="app">
+      <header className="header">
+        <h1>Reseking</h1>
 
-            <main className="main">
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <div className="home">
-                                <h2>Bienvenue sur Reseking</h2>
-                                <p>
-                                    Réservez votre place de parking en quelques secondes.
-                                </p>
-                            </div>
-                        }
-                    />
+        <nav>
+          <NavLink to="/" end>
+            Accueil
+          </NavLink>
+          {isAuthenticated && (
+            <NavLink to="/reservation">Réserver</NavLink>
+          )}
+        </nav>
 
-                    <Route path="/reservation" element={<ReservationPage />} />
-                </Routes>
-            </main>
+        <div className="auth-section">
+          {isAuthenticated ? (
+            <>
+              <NavLink to="/profile">{user?.firstName} {user?.lastName}</NavLink>
+              <button onClick={logout}>Déconnexion</button>
+            </>
+          ) : (
+            <NavLink to="/login">Connexion</NavLink>
+          )}
         </div>
-    );
+      </header>
+
+      <main className="main">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="home">
+                <h2>Bienvenue sur Reseking</h2>
+                <p>Réservez votre place de parking en quelques secondes.</p>
+              </div>
+            }
+          />
+
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/reservation" element={<ReservationPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
 export default App;
