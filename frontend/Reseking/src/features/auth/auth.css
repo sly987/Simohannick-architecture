@@ -1,0 +1,77 @@
+.login-page,
+.profile-page {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  max-width: 400px;
+  margin: auto;
+  color: #1e293b;
+}
+
+.login-page h1,
+.profile-page h1 {
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.login-page p {
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.login-form .error {
+  color: #dc2626;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.profile-card {
+  text-align: left;
+  margin-top: 24px;
+}
+
+.profile-field {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.profile-field .label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.profile-field .value {
+  color: #1e293b;
+}
+
+.logout-btn {
+  margin-top: 24px;
+  background: #dc2626;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
+}
+
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.auth-section a {
+  color: #cbd5f5;
+  text-decoration: none;
+}
+
+.auth-section button {
+  width: auto;
+  padding: 8px 16px;
+  font-size: 14px;
+}

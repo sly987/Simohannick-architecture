@@ -74,11 +74,11 @@ INSERT INTO parking_spot (spot_id, spot_row, spot_column, type) VALUES (60, 'F',
 
 -- Seed test employees with properly hashed passwords (password: "password123")
 INSERT INTO employee (first_name, last_name, email, password, role)
-VALUES ('John', 'Doe', 'john.doe@example.com', '$2a$10$GAJeUq1XAJd2H/BGJ44Ql.577t5HXebVO4wV4kPOBRNV3fjPJwFUa', 'MANAGER');
+VALUES ('John', 'Doe', 'john.doe@example.com', '$2y$10$G3lIHL4fQAOAnPo8hMM24eWiUlJM.nL96A0Or.18tR90y5fnFmw1.', 'MANAGER');
 
 INSERT INTO employee (first_name, last_name, email, password, role)
-VALUES ('Admin', 'User', 'admin@company.com', '$2a$10$GAJeUq1XAJd2H/BGJ44Ql.577t5HXebVO4wV4kPOBRNV3fjPJwFUa', 'ADMIN');
+VALUES ('Admin', 'User', 'admin@company.com', '$2y$10$G3lIHL4fQAOAnPo8hMM24eWiUlJM.nL96A0Or.18tR90y5fnFmw1.', 'ADMIN');
 
 INSERT INTO employee (first_name, last_name, email, password, role)
-VALUES ('Jane', 'Smith', 'jane.smith@example.com', '$2a$10$GAJeUq1XAJd2H/BGJ44Ql.577t5HXebVO4wV4kPOBRNV3fjPJwFUa', 'EMPLOYEE');
+VALUES ('Jane', 'Smith', 'jane.smith@example.com', '$2y$10$G3lIHL4fQAOAnPo8hMM24eWiUlJM.nL96A0Or.18tR90y5fnFmw1.', 'EMPLOYEE');
 
