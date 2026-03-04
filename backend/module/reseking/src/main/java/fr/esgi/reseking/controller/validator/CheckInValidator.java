@@ -2,8 +2,8 @@ package fr.esgi.reseking.controller.validator;
 
 import fr.esgi.reseking.exception.ResourceAlreadyReservedException;
 import fr.esgi.reseking.model.Reservation;
-
-import java.time.LocalDate;
+import fr.esgi.reseking.model.ReservationDay;
+import fr.esgi.reseking.model.enums.Status;
 
 
 public class CheckInValidator {
@@ -17,9 +17,9 @@ public class CheckInValidator {
         }
     }
 
-    public static void validateNotAlreadyCheckedIn(Reservation reservation, LocalDate date) {
-        if (reservation.isCheckedInForDate(date)) {
-            throw new ResourceAlreadyReservedException("Already checked in for date " + date);
+    public static void validateNotAlreadyCheckedIn(ReservationDay reservationDay) {
+        if (Status.CHECKED_IN == reservationDay.getStatus()) {
+            throw new ResourceAlreadyReservedException("Already checked in for date " + reservationDay.getDate());
         }
     }
 }

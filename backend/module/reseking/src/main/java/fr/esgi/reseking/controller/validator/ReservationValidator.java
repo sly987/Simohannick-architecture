@@ -4,9 +4,11 @@ import fr.esgi.reseking.controller.dto.ReservationDTO;
 import fr.esgi.reseking.exception.ReservationDurationExceededException;
 import fr.esgi.reseking.exception.ResourceAlreadyReservedException;
 import fr.esgi.reseking.model.Employee;
+import fr.esgi.reseking.model.ReservationDay;
 import fr.esgi.reseking.util.ReservationUtil;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ReservationValidator {
 
@@ -43,18 +45,17 @@ public class ReservationValidator {
         }
     }
 
-    public static void validateSpotIsAvailable(boolean isOccupied, String row, String column) {
-        if (isOccupied) {
-            throw new ResourceAlreadyReservedException("Parking spot " + row + column + " is already occupied.");
-        }
-    }
-
-    public static void validateReservationDuration(ReservationDTO dto, Employee employee) {
-        if (!ReservationUtil.isValidReservationDuration(dto.getStartDate(), dto.getEndDate(), employee.getRole())) {
+    public static void validateReservationDuration(int requestedDuration, Employee employee) {
+        if (!ReservationUtil.isValidReservationDuration(requestedDuration, employee.getRole())) {
             throw new ReservationDurationExceededException(
                     "Reservation duration exceeds the maximum allowed for role " + employee.getRole().name()
             );
         }
     }
-}
 
+    public static void validateSpotAvailabilityForDays(List<ReservationDay> existingDays, String row, String column) {
+        if (!existingDays.isEmpty()) {
+            throw new ResourceAlreadyReservedException("Parking spot " + row + column + " is already occupied for one or more requested days.");
+        }
+    }
+}
