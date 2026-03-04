@@ -4,6 +4,7 @@ import { ProfilePage } from "./features/auth/ProfilePage";
 import { ProtectedRoute } from "./features/auth/components/ProtectedRoute";
 import { useAuth } from "./features/auth/useAuth";
 import ReservationPage from "./features/reservation/reservationPage";
+import { DashboardPage } from "./features/dashboard/DashboardPage";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,9 @@ function App() {
           </NavLink>
           {isAuthenticated && (
             <NavLink to="/reservation">Réserver</NavLink>
+          )}
+          {isAuthenticated && (user?.role === "MANAGER" || user?.role === "ADMIN") && (
+            <NavLink to="/dashboard">Dashboard</NavLink>
           )}
         </nav>
 
@@ -52,6 +56,10 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/reservation" element={<ReservationPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={["MANAGER", "ADMIN"]} />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
         </Routes>
       </main>
