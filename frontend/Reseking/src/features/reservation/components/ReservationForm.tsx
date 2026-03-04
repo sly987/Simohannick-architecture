@@ -3,33 +3,47 @@ import DatePicker from "react-datepicker";
 import { fr } from "date-fns/locale";
 import type { Reservation, VehicleType } from "../reservation.types";
 import "../Reservation.css";
+import type { ParkingSpot } from "../../parking/parking.types";
+
 type Props = {
-  onSubmit: (reservation: Reservation) => void;
+  selectedSpot: ParkingSpot;
+  onSubmit: (data: Reservation) => void;
 };
 
-export function ReservationForm({ onSubmit }: Props) {
+export function ReservationForm({ selectedSpot, onSubmit }: Props) {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [duration, setDuration] = useState(1);
-  const [vehicleType, setVehicleType] =
-    useState<VehicleType>("essence");
+  const [vehicleType, setVehicleType] = useState<VehicleType>("essence");
+  const [registrationNumber, setRegistrationNumber] = useState(""); // Nouveau champ
 
   const handleSubmit = () => {
-    if (!startDate) return;
+    if (!startDate || !selectedSpot) {
+      alert("Veuillez sélectionner une place");
+      return;
+    }
+    if (!registrationNumber.trim()) {
+      alert("Veuillez entrer le numéro d'immatriculation");
+      return;
+    }
 
     onSubmit({
       startDate: startDate.toISOString().split("T")[0],
       duration,
       vehicleType,
+      parkingSpotId: selectedSpot.id,
+      registrationNumber, // inclure dans la réservation
     });
   };
 
   return (
-
     <div className="reservation-card">
       <h1>🚗 Réservation de parking</h1>
-      <p className="subtitle">
-        Choisissez votre créneau de stationnement
-      </p>
+      {selectedSpot && (
+        <p className="selected-spot">
+          Place sélectionnée : <strong>{selectedSpot.row}{selectedSpot.column}</strong>
+        </p>
+      )}
+      <p className="subtitle">Choisissez votre créneau de stationnement</p>
 
       <div className="field">
         <label>Date de début</label>
@@ -52,6 +66,7 @@ export function ReservationForm({ onSubmit }: Props) {
           className="input-field"
         />
       </div>
+
       <div className="field">
         <label>Type de véhicule</label>
         <select
@@ -63,10 +78,19 @@ export function ReservationForm({ onSubmit }: Props) {
           <option value="essence">Essence</option>
         </select>
       </div>
-      <button onClick={handleSubmit}>
-        Réserver ma place
-      </button>
-    </div>
 
+      <div className="field">
+        <label>Numéro d’immatriculation</label>
+        <input
+          type="text"
+          value={registrationNumber}
+          onChange={(e) => setRegistrationNumber(e.target.value)}
+          className="input-field"
+          placeholder="Ex: AB-123-CD"
+        />
+      </div>
+
+      <button onClick={handleSubmit}>Réserver ma place</button>
+    </div>
   );
 }
