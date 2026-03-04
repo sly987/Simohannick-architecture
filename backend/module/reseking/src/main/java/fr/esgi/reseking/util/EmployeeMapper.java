@@ -4,6 +4,9 @@ import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.model.Employee;
 import fr.esgi.reseking.model.enums.Role;
 
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 public class EmployeeMapper {
 
     private EmployeeMapper() {
@@ -27,6 +30,16 @@ public class EmployeeMapper {
         dto.setLastName(employee.getLastName());
         dto.setEmail(employee.getEmail());
         dto.setRole(employee.getRole().name());
+
+        if (employee.getReservations() != null) {
+            dto.setReservations(employee.getReservations()
+                    .stream()
+                    .map(ReservationMapper::mapToDTO)
+                    .collect(Collectors.toList()));
+        } else {
+            dto.setReservations(Collections.emptyList());
+        }
+
         return dto;
     }
 }
