@@ -1,5 +1,6 @@
 package fr.esgi.reseking.controller;
 
+import fr.esgi.reseking.controller.dto.CreateEmployeeDTO;
 import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.controller.response.CreationApiResponse;
 import fr.esgi.reseking.controller.validator.EmployeeValidator;
@@ -41,9 +42,9 @@ public class SecretaryController {
             @ApiResponse(responseCode = "400", description = "Invalid input or duplicate email"),
             @ApiResponse(responseCode = "403", description = "Forbidden - Admin access required")
     })
-    public ResponseEntity<CreationApiResponse> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        EmployeeValidator.validateEmployeeInput(employeeDTO);
-        Integer employeeId = employeeService.addEmployee(employeeDTO);
+    public ResponseEntity<CreationApiResponse> addEmployee(@RequestBody CreateEmployeeDTO createEmployeeDTO) {
+        EmployeeValidator.validateEmployeeInput(createEmployeeDTO);
+        Integer employeeId = employeeService.addEmployee(createEmployeeDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new CreationApiResponse("Employee created successfully", employeeId));
@@ -69,6 +70,20 @@ public class SecretaryController {
             @Parameter(description = "Reservation ID to delete", required = true)
             @RequestParam Integer id) {
         reservationService.deleteReservation(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/reservations/cancel")
+    @Operation(summary = "Cancel reservation", description = "Cancel a reservation by ID and remove associated reservation days")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Reservation cancelled successfully"),
+            @ApiResponse(responseCode = "404", description = "Reservation not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden - Admin access required")
+    })
+    public ResponseEntity<Void> cancelReservation(
+            @Parameter(description = "Reservation ID to cancel", required = true)
+            @RequestParam Integer id) {
+        reservationService.cancelReservation(id);
         return ResponseEntity.noContent().build();
     }
 }

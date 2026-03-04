@@ -5,18 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeDTO {
-    private Integer id;
+public class CreateEmployeeDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String role;
-    private List<ReservationDTO> reservations;
 }
 

@@ -1,3 +1,5 @@
+import type { Reservation } from "../reservation/reservation.types";
+
 export type Role = "EMPLOYEE" | "MANAGER" | "ADMIN";
 
 export type User = {
@@ -5,6 +7,7 @@ export type User = {
   firstName: string;
   lastName: string;
   role: Role;
+  reservations?: Reservation[];
 };
 
 export type LoginCredentials = {

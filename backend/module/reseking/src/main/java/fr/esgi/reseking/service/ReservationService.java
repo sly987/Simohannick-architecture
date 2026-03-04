@@ -13,7 +13,7 @@ import fr.esgi.reseking.repository.EmployeeRepository;
 import fr.esgi.reseking.repository.ParkingSpotRepository;
 import fr.esgi.reseking.repository.ReservationDayRepository;
 import fr.esgi.reseking.repository.ReservationRepository;
-import fr.esgi.reseking.util.ReservationMapper;
+import fr.esgi.reseking.mapper.ReservationMapper;
 import fr.esgi.reseking.controller.validator.ReservationValidator;
 import org.springframework.stereotype.Service;
 
@@ -113,6 +113,17 @@ public class ReservationService {
     public void deleteReservation(Integer reservationId) {
         reservationRepository.findById(reservationId)
                 .ifPresent(reservationRepository::delete);
+    }
+
+    public void cancelReservation(Integer reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new DataNotFoundException("Reservation not found with id: " + reservationId));
+
+        reservation.setStatus(Status.CANCELLED);
+        reservationRepository.save(reservation);
+
+        List<ReservationDay> reservationDays = reservationDayRepository.findByReservation_Id(reservationId);
+        reservationDayRepository.deleteAll(reservationDays);
     }
 }
 
