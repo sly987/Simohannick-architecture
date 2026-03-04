@@ -23,17 +23,13 @@ public class Employee {
     private Integer id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
-    private String occupation;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(mappedBy = "employee")
     private List<Reservation> reservations;
-
-    @OneToOne
-    @JoinColumn(name = "active_reservation_id")
-    private Reservation activeReservation;
 }
