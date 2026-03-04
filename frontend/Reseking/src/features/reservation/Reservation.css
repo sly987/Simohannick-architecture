@@ -21,3 +21,9 @@
   font-size: 24px;
   color: black;
 }
+
+.selected-spot {
+  margin-top: 16px;
+  font-size: 16px;
+  color: #333;
+}

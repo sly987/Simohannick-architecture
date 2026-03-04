@@ -5,4 +5,6 @@ export type Reservation = {
   startDate: string;
   duration: number;
   vehicleType: VehicleType;
+  parkingSpotId: number;
+  registrationNumber: string; 
 };
