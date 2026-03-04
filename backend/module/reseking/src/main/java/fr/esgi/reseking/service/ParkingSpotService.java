@@ -8,7 +8,7 @@ import fr.esgi.reseking.model.ReservationDay;
 import fr.esgi.reseking.model.enums.Status;
 import fr.esgi.reseking.repository.ParkingSpotRepository;
 import fr.esgi.reseking.repository.ReservationDayRepository;
-import fr.esgi.reseking.util.ParkingSpotMapper;
+import fr.esgi.reseking.mapper.ParkingSpotMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

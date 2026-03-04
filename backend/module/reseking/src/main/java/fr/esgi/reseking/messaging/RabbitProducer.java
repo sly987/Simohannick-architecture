@@ -1,6 +1,7 @@
-package fr.esgi.reseking.service;
+package fr.esgi.reseking.messaging;
 
 import fr.esgi.reseking.configuration.RabbitConfiguration;
+import fr.esgi.reseking.messaging.event.ReservationCreatedEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,14 @@ public class RabbitProducer {
                 RabbitConfiguration.EXCHANGE,
                 RabbitConfiguration.ROUTING_KEY,
                 message
+        );
+    }
+
+    public void sendReservationCreated(ReservationCreatedEvent event) {
+        rabbitTemplate.convertAndSend(
+                RabbitConfiguration.EXCHANGE,
+                RabbitConfiguration.ROUTING_KEY,
+                event
         );
     }
 

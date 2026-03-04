@@ -1,4 +1,4 @@
-package fr.esgi.reseking.util;
+package fr.esgi.reseking.mapper;
 
 import fr.esgi.reseking.controller.dto.ReservationDTO;
 import fr.esgi.reseking.model.Employee;

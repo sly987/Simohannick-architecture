@@ -2,6 +2,8 @@ package fr.esgi.reseking.service;
 
 import fr.esgi.reseking.controller.dto.ReservationDTO;
 import fr.esgi.reseking.exception.DataNotFoundException;
+import fr.esgi.reseking.messaging.RabbitProducer;
+import fr.esgi.reseking.messaging.event.ReservationCreatedEvent;
 import fr.esgi.reseking.model.Employee;
 import fr.esgi.reseking.model.ParkingSpot;
 import fr.esgi.reseking.model.Reservation;
@@ -11,7 +13,7 @@ import fr.esgi.reseking.repository.EmployeeRepository;
 import fr.esgi.reseking.repository.ParkingSpotRepository;
 import fr.esgi.reseking.repository.ReservationDayRepository;
 import fr.esgi.reseking.repository.ReservationRepository;
-import fr.esgi.reseking.util.ReservationMapper;
+import fr.esgi.reseking.mapper.ReservationMapper;
 import fr.esgi.reseking.controller.validator.ReservationValidator;
 import org.springframework.stereotype.Service;
 
@@ -25,15 +27,18 @@ public class ReservationService {
     private final EmployeeRepository employeeRepository;
     private final ParkingSpotRepository parkingSpotRepository;
     private final ReservationDayRepository reservationDayRepository;
+    private final RabbitProducer rabbitProducer;
 
     public ReservationService(ReservationRepository reservationRepository,
                               EmployeeRepository employeeRepository,
                               ParkingSpotRepository parkingSpotRepository,
-                              ReservationDayRepository reservationDayRepository) {
+                              ReservationDayRepository reservationDayRepository,
+                              RabbitProducer rabbitProducer) {
         this.reservationRepository = reservationRepository;
         this.employeeRepository = employeeRepository;
         this.parkingSpotRepository = parkingSpotRepository;
         this.reservationDayRepository = reservationDayRepository;
+        this.rabbitProducer = rabbitProducer;
     }
 
     public Integer addReservation(ReservationDTO dto) {
@@ -49,11 +54,12 @@ public class ReservationService {
         );
 
         ReservationValidator.validateEmployeeHasNoActiveReservation(hasActiveReservation, employee.getId());
-        ReservationValidator.validateReservationDuration(dto, employee);
 
         List<LocalDate> requestedDays = dto.getStartDate().datesUntil(dto.getEndDate().plusDays(1))
                 .filter(date -> date.getDayOfWeek().getValue() < 6)
                 .toList();
+        ReservationValidator.validateReservationDuration(requestedDays.size(), employee);
+
 
         List<ReservationDay> existingDays =
                 reservationDayRepository.findBySpot_IdAndDateInAndStatusIn(
@@ -72,6 +78,9 @@ public class ReservationService {
 
         reservationDayRepository.saveAll(days);
 
+        ReservationCreatedEvent event = buildReservationCreatedEvent(saved, employee, spot);
+        rabbitProducer.sendReservationCreated(event);
+
         return saved.getId();
     }
 
@@ -89,6 +98,32 @@ public class ReservationService {
         return reservations.stream()
                 .map(ReservationMapper::mapToDTO)
                 .toList();
+    }
+
+    private ReservationCreatedEvent buildReservationCreatedEvent(Reservation reservation, Employee employee, ParkingSpot spot) {
+        return ReservationCreatedEvent.builder()
+                .reservationId(reservation.getId())
+                .employeeEmail(employee.getEmail())
+                .spotLabel(spot.getLabel())
+                .startDate(reservation.getStartDate())
+                .endDate(reservation.getEndDate())
+                .build();
+    }
+
+    public void deleteReservation(Integer reservationId) {
+        reservationRepository.findById(reservationId)
+                .ifPresent(reservationRepository::delete);
+    }
+
+    public void cancelReservation(Integer reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new DataNotFoundException("Reservation not found with id: " + reservationId));
+
+        reservation.setStatus(Status.CANCELLED);
+        reservationRepository.save(reservation);
+
+        List<ReservationDay> reservationDays = reservationDayRepository.findByReservation_Id(reservationId);
+        reservationDayRepository.deleteAll(reservationDays);
     }
 }
 

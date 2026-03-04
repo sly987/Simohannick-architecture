@@ -45,14 +45,8 @@ public class ReservationValidator {
         }
     }
 
-    public static void validateSpotIsAvailable(boolean isOccupied, String row, String column) {
-        if (isOccupied) {
-            throw new ResourceAlreadyReservedException("Parking spot " + row + column + " is already occupied.");
-        }
-    }
-
-    public static void validateReservationDuration(ReservationDTO dto, Employee employee) {
-        if (!ReservationUtil.isValidReservationDuration(dto.getStartDate(), dto.getEndDate(), employee.getRole())) {
+    public static void validateReservationDuration(int requestedDuration, Employee employee) {
+        if (!ReservationUtil.isValidReservationDuration(requestedDuration, employee.getRole())) {
             throw new ReservationDurationExceededException(
                     "Reservation duration exceeds the maximum allowed for role " + employee.getRole().name()
             );
