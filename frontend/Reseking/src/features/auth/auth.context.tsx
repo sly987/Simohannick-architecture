@@ -44,7 +44,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = async (credentials: LoginCredentials) => {
     const response = await authApi.login(credentials);
     tokenStorage.set(response.token);
-    setUser(response.user);
+    const user = await authApi.me(response.token);
+    setUser(user);
   };
 
   const logout = () => {

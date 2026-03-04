@@ -1,7 +1,6 @@
 export type Role = "EMPLOYEE" | "MANAGER" | "ADMIN";
 
 export type User = {
-  id: number;
   email: string;
   firstName: string;
   lastName: string;
@@ -13,9 +12,9 @@ export type LoginCredentials = {
   password: string;
 };
 
-export type AuthResponse = {
+export type LoginResponse = {
   token: string;
-  user: User;
+  role: string;
 };
 
 export type AuthState = {
