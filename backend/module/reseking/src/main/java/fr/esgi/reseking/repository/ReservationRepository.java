@@ -16,7 +16,6 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     boolean existsByEmployeeAndStatusIn(Employee employee, Status... statuses);
-    boolean existsBySpotAndStatusIn(ParkingSpot spot, Status... statuses);
 
     @Query("select r from Reservation r where r.spot.id = :spotId and r.startDate <= :today and r.endDate >= :today and r.status in :statuses")
     Optional<Reservation> findActiveForSpotOnDate(@Param("spotId") Integer spotId, @Param("today") LocalDate today, @Param("statuses") List<Status> statuses);

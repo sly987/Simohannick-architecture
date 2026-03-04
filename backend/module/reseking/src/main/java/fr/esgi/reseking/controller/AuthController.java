@@ -1,6 +1,5 @@
 package fr.esgi.reseking.controller;
 
-import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.controller.dto.LoginDTO;
 import fr.esgi.reseking.controller.response.LoginApiResponse;
 import fr.esgi.reseking.controller.validator.LoginValidator;
