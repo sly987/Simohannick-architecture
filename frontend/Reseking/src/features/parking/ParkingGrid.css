@@ -1,0 +1,63 @@
+.parking-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.parking-grid-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  min-height: 100vh;       
+}
+.parking-row {
+  display: flex;
+  gap: 12px;
+}
+
+.parking-spot {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Hover effect */
+.parking-spot.free:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Spot types and status */
+.parking-spot.free.standard {
+  background: linear-gradient(145deg, #aed581, #7cb342);
+}
+
+.parking-spot.free.electric {
+  background: linear-gradient(145deg, #81d4fa, #4fc3f7);
+}
+
+.parking-spot.occupied.standard {
+  background: #ef5350;
+  cursor: not-allowed;
+}
+
+.parking-spot.occupied.electric {
+  background: #9ccc65;
+  cursor: not-allowed;
+}
+
+/* Electric icon */
+.electric-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 14px;
+}
