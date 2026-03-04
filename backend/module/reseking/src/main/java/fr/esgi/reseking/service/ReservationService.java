@@ -109,5 +109,10 @@ public class ReservationService {
                 .endDate(reservation.getEndDate())
                 .build();
     }
+
+    public void deleteReservation(Integer reservationId) {
+        reservationRepository.findById(reservationId)
+                .ifPresent(reservationRepository::delete);
+    }
 }
 
