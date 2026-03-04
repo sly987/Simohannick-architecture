@@ -1,5 +1,6 @@
 package fr.esgi.reseking.service;
 
+import fr.esgi.reseking.controller.dto.CreateEmployeeDTO;
 import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.controller.validator.EmployeeValidator;
 import fr.esgi.reseking.exception.DataNotFoundException;
@@ -22,12 +23,12 @@ public class EmployeeService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Integer addEmployee(EmployeeDTO employeeDTO) {
-        Employee existing = employeeRepository.findByEmail(employeeDTO.getEmail()).orElse(null);
+    public Integer addEmployee(CreateEmployeeDTO createEmployeeDTO) {
+        Employee existing = employeeRepository.findByEmail(createEmployeeDTO.getEmail()).orElse(null);
         EmployeeValidator.validateEmailNotDuplicate(existing);
 
-        Employee employee = EmployeeMapper.toEntity(employeeDTO);
-        employee.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
+        Employee employee = EmployeeMapper.toEntity(createEmployeeDTO);
+        employee.setPassword(passwordEncoder.encode(createEmployeeDTO.getPassword()));
         Employee savedEmployee = employeeRepository.save(employee);
         return savedEmployee.getId();
     }

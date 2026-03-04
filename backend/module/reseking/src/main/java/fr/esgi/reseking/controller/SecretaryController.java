@@ -1,5 +1,6 @@
 package fr.esgi.reseking.controller;
 
+import fr.esgi.reseking.controller.dto.CreateEmployeeDTO;
 import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.controller.response.CreationApiResponse;
 import fr.esgi.reseking.controller.validator.EmployeeValidator;
@@ -41,9 +42,9 @@ public class SecretaryController {
             @ApiResponse(responseCode = "400", description = "Invalid input or duplicate email"),
             @ApiResponse(responseCode = "403", description = "Forbidden - Admin access required")
     })
-    public ResponseEntity<CreationApiResponse> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        EmployeeValidator.validateEmployeeInput(employeeDTO);
-        Integer employeeId = employeeService.addEmployee(employeeDTO);
+    public ResponseEntity<CreationApiResponse> addEmployee(@RequestBody CreateEmployeeDTO createEmployeeDTO) {
+        EmployeeValidator.validateEmployeeInput(createEmployeeDTO);
+        Integer employeeId = employeeService.addEmployee(createEmployeeDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new CreationApiResponse("Employee created successfully", employeeId));

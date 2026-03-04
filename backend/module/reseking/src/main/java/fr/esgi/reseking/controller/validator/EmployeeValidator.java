@@ -1,6 +1,6 @@
 package fr.esgi.reseking.controller.validator;
 
-import fr.esgi.reseking.controller.dto.EmployeeDTO;
+import fr.esgi.reseking.controller.dto.CreateEmployeeDTO;
 import fr.esgi.reseking.exception.DuplicateEmailException;
 import fr.esgi.reseking.model.Employee;
 
@@ -9,7 +9,7 @@ public class EmployeeValidator {
     private EmployeeValidator() {
     }
 
-    public static void validateEmployeeInput(EmployeeDTO dto) {
+    public static void validateEmployeeInput(CreateEmployeeDTO dto) {
         if (dto.getFirstName() == null || dto.getFirstName().isBlank()) {
             throw new IllegalArgumentException("First name is required");
         }

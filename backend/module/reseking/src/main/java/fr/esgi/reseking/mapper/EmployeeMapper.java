@@ -1,5 +1,6 @@
 package fr.esgi.reseking.mapper;
 
+import fr.esgi.reseking.controller.dto.CreateEmployeeDTO;
 import fr.esgi.reseking.controller.dto.EmployeeDTO;
 import fr.esgi.reseking.model.Employee;
 import fr.esgi.reseking.model.enums.Role;
@@ -12,7 +13,7 @@ public class EmployeeMapper {
     private EmployeeMapper() {
     }
 
-    public static Employee toEntity(EmployeeDTO dto) {
+    public static Employee toEntity(CreateEmployeeDTO dto) {
         Role role = Role.valueOf(dto.getRole().toUpperCase());
 
         Employee employee = new Employee();
